@@ -22,7 +22,7 @@ patches:
     - '@./patches/all.yaml'
 nodes:
     # We would adivce to always stick to a "k8s-something-1" style naming scheme
-    - hostname: k8s-test-1
+    - hostname: k8s-control-1
       ipAddress: ${MASTER1IP_IP}
       controlPlane: true
       nameservers:
