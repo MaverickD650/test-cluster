@@ -37,16 +37,16 @@ spec:
     socketLB:
       hostNamespaceOnly: true
     hubble:
-      enabled: true
+      enabled: false
       relay:
-        enabled: true
-        rollOutPods: true
+        enabled: false
+        rollOutPods: false
         prometheus:
           serviceMonitor:
-            enabled: true
+            enabled: false
       ui:
-        enabled: true
-        rollOutPods: true
+        enabled: false
+        rollOutPods: false
     cluster:
       name: main
       id: 1

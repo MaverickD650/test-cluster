@@ -53,8 +53,6 @@ controlPlane:
      - name: nvme_tcp
      - name: vfio_pci
      - name: uio_pci_generic
-     - name: thuderbolt
-     - name: thunderbolt_net
     schematic:
         customization:
             extraKernelArgs:
@@ -69,7 +67,6 @@ controlPlane:
                     - siderolabs/i915
                     - siderolabs/intel-ucode
                     - siderolabs/mei
-                    - siderolabs/thunderbolt
     machineFiles:
     - content: |
         [plugins."io.containerd.cri.v1.images"]
@@ -94,9 +91,6 @@ worker:
      - name: nvme_tcp
      - name: vfio_pci
      - name: uio_pci_generic
-     - name: thuderbolt
-     - name: thunderbolt_net
-
     schematic:
         customization:
             extraKernelArgs:
@@ -111,7 +105,6 @@ worker:
                     - siderolabs/i915
                     - siderolabs/intel-ucode
                     - siderolabs/mei
-                    - siderolabs/thunderbolt
     machineFiles:
     - content: |
         [plugins."io.containerd.cri.v1.images"]
