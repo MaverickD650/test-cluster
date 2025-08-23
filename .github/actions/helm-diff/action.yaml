@@ -1,0 +1,44 @@
+name: Retry Flux HelmRelease Diff
+
+description: Diff HelmReleases using flux-local with retries
+
+inputs:
+  retries:
+    description: "Number of retries"
+    required: false
+    default: "3"
+
+runs:
+  using: "composite"
+  steps:
+    - name: Run diff with retries
+      shell: bash
+      run: |
+        RETRIES=${{ inputs.retries }}
+        COUNT=0
+        until [ $COUNT -ge $RETRIES ]
+        do
+          docker run --rm \
+            -v "${{ github.workspace }}:/github/workspace" \
+            ghcr.io/allenporter/flux-local:v7.8.0@sha256:e8cd431e824eddd169763e02ef73ebb76c40740f1e1e67f6234a29b28304ce9c \
+            diff helmrelease \
+            --unified 6 \
+            --path /github/workspace/pull/ \
+            --path-orig /github/workspace/default/ \
+            --strip-attrs "helm.sh/chart,checksum/config,checksum/redis,checksum/secrets,app.kubernetes.io/version,chart,app" \
+            --limit-bytes 10000 \
+            --all-namespaces \
+            --sources "cluster" \
+            --output-file /github/workspace/diff-helmrelease.patch \
+            --api-versions=monitoring.coreos.com/v1 && break
+          COUNT=$((COUNT+1))
+          echo "Retry $COUNT/$RETRIES failed. Retrying in 5s..."
+          sleep 5
+        done
+
+        if [ $COUNT -eq $RETRIES ]; then
+          echo "All $RETRIES attempts failed"
+          exit 1
+        fi
+
+        chmod +rw diff-helmrelease.patch || true
