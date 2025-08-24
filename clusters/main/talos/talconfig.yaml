@@ -44,7 +44,8 @@ nodes:
         - name: longhorn
           provisioning:
             diskSelector:
-              match: disk.size >= 1200 * GB
+              match: disk.model == "CT2000T500SSD8"  && !system_disk
+            minSize: 1TB
 controlPlane:
     patches:
         - '@./patches/controlplane.yaml'
