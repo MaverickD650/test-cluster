@@ -3,4 +3,3 @@ kind: Kustomization
 resources:
   - kubernetes-dashboard/ks.yaml
   - homepage/ks.yaml
-  - mealie-test/ks.yaml
