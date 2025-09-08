@@ -69,3 +69,12 @@ jobs:
         with:
           token: ${{ steps.app-token.outputs.token }}
           renovate-version: ${{ inputs.version || 'latest' }}
+
+      - name: Dump Renovate Config
+        run: |
+          npx renovate --print-config > renovate-config.json
+          cat renovate-config.json
+
+      - name: Cleanup
+        run: |
+          rm -rf renovate-config.json /tmp/renovate
