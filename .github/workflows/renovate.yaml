@@ -72,9 +72,10 @@ jobs:
 
       - name: Dump Renovate Config
         run: |
-          npx renovate --print-config > renovate-config.json
-          cat renovate-config.json
-
+          npm install -g renovate@latest
+          renovate --print-config
+        env:
+          LOG_LEVEL: debug
       - name: Cleanup
         run: |
           rm -rf renovate-config.json /tmp/renovate
